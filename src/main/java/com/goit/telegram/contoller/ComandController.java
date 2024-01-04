@@ -21,6 +21,17 @@ public class ComandController {
                 return service.mainPage(update);
             case "/settings":
                 return service.settingPage(update);
+            case "/backToSettingPage":
+                return service.settingPage(update);
+            case "/pointAmountSetting":
+                return service.pointAmountSettingPage(update);
+            case "/bankSetting":
+                return service.bankSettingPage(update);
+            case "/currencySetting":
+                return service.currencySettingPage(update);
+            case "/timeSetting":
+                return service.timeSettingPage(update);
+
             default:
                 return service.mainPage(update);
         }
