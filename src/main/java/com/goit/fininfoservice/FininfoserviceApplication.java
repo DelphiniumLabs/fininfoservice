@@ -11,7 +11,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.goit")
 public class FininfoserviceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FininfoserviceApplication.class, args);

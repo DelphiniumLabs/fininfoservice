@@ -7,23 +7,27 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
+//функционал генерации каждой страницы
 @Service
 public class MessegeService {
-    Map<String, String> mainPage = new HashMap<String, String>();
+    Map<String, String> mainPage = new LinkedHashMap<>();
+    Map<String, String> infoPage = new LinkedHashMap<>();
+    Map<String, String> settingPage = new LinkedHashMap<>();
 
-    public EditMessageText mainPageKeyboard(Update update){
+    public EditMessageText mainPage(Update update){
         mainPage.put("Отримати інфо", "/info");
         mainPage.put("Налаштування", "/settings");
         return EditMessageText.builder().text("Main page text")
-                .messageId(update.getMessage().getMessageId())
+                .chatId(update.getCallbackQuery().getMessage().getChatId())
+                .messageId(update.getCallbackQuery().getMessage().getMessageId())
                 .replyMarkup(new InlineKeyboardFactory().getMarkap(mainPage))
-                .chatId(update.getMessage().getChatId())
                 .build();
     }
 
-    public SendMessage startPageKeyboard(Update update){
+    public SendMessage startPage(Update update){
         mainPage.put("Отримати інфо", "/info");
         mainPage.put("Налаштування", "/settings");
         return SendMessage.builder().text("Hello text")
@@ -31,4 +35,38 @@ public class MessegeService {
                 .replyMarkup(new InlineKeyboardFactory().getMarkap(mainPage))
                 .build();
     }
+
+    public EditMessageText infoPage(Update update){
+        infoPage.put("Обновити", "/updateInfoPage");
+        infoPage.put("Назад", "/backToMainPage");
+        return EditMessageText.builder().text("Info text")
+                .chatId(update.getCallbackQuery().getMessage().getChatId())
+                .messageId(update.getCallbackQuery().getMessage().getMessageId())
+                .replyMarkup(new InlineKeyboardFactory().getMarkap(infoPage))
+                .build();
+    }
+
+    public EditMessageText updateInfoPage(Update update){
+        infoPage.put("Обновити", "/updateInfoPage");
+        infoPage.put("Назад", "/backToMainPage");
+        return EditMessageText.builder().text("New info text")
+                .chatId(update.getCallbackQuery().getMessage().getChatId())
+                .messageId(update.getCallbackQuery().getMessage().getMessageId())
+                .replyMarkup(new InlineKeyboardFactory().getMarkap(infoPage))
+                .build();
+    }
+
+    public EditMessageText settingPage(Update update){
+        settingPage.put("Кількість знаків після коми", "/pointAmountSetting");
+        settingPage.put("Банк", "/bankSetting");
+        settingPage.put("Валюта", "/currencySetting");
+        settingPage.put("Час Сповіщень", "/timeSetting");
+        settingPage.put("Назад", "/backToMainPage");
+        return EditMessageText.builder().text("Setting text")
+                .chatId(update.getCallbackQuery().getMessage().getChatId())
+                .messageId(update.getCallbackQuery().getMessage().getMessageId())
+                .replyMarkup(new InlineKeyboardFactory().getMarkap(settingPage))
+                .build();
+    }
+
 }

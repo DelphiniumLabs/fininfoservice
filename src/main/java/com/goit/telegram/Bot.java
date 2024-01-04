@@ -26,7 +26,7 @@ public class Bot extends TelegramLongPollingBot {
         if(update.hasMessage() && update.getMessage().hasText()){
             if(update.getMessage().getText().equals("/start")){
                 try {
-                    execute(new MessegeService().startPageKeyboard(update));
+                    execute(new MessegeService().startPage(update));
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }

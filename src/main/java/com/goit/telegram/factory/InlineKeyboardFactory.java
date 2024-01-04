@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+//Фабрика кнопок под текстом
 @Component
 public class InlineKeyboardFactory {
     public InlineKeyboardMarkup getMarkap(Map<String, String> buttons){
