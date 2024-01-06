@@ -1,4 +1,4 @@
-package com.goit.telegram.factory;
+package com.goit.fininfoservice.telegram.factory;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;

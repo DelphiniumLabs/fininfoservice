@@ -1,12 +1,11 @@
-package com.goit.telegram.service;
+package com.goit.fininfoservice.telegram.service;
 
-import com.goit.telegram.factory.InlineKeyboardFactory;
+import com.goit.fininfoservice.telegram.factory.InlineKeyboardFactory;
 import org.jvnet.hk2.annotations.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

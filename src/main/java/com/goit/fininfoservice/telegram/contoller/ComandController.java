@@ -1,6 +1,6 @@
-package com.goit.telegram.contoller;
+package com.goit.fininfoservice.telegram.contoller;
 
-import com.goit.telegram.service.MessegeService;
+import com.goit.fininfoservice.telegram.service.MessegeService;
 import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
