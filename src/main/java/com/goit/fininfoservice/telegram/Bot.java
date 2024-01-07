@@ -1,26 +1,21 @@
-package com.goit.telegram;
+package com.goit.fininfoservice.telegram;
 
 
-import com.goit.telegram.contoller.ComandController;
-import com.goit.telegram.service.MessegeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.goit.fininfoservice.telegram.contoller.ComandController;
+import com.goit.fininfoservice.telegram.service.MessegeService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class Bot extends TelegramLongPollingBot {
+
+    public Bot(@Value("${bot.token}") String botToken){
+        super(botToken);
+    }
+
     @Override
     public void onUpdateReceived(Update update) {
         if(update.hasMessage() && update.getMessage().hasText()){
@@ -53,8 +48,4 @@ public class Bot extends TelegramLongPollingBot {
         return "RateBot";
     }
 
-    @Override
-    public String getBotToken() {
-        return "6532097656:AAGreohkCXAXkYEUG739EFVUevU92vokDoM";
-    }
 }
