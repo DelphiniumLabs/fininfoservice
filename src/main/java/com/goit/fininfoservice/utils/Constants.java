@@ -1,6 +1,8 @@
 package com.goit.fininfoservice.utils;
 
 public class Constants {
+
+    private Constants(){}
     public static final String GREETING = """ 
             Hello my dear friend! I am The Financial Information Bot.
             I will keep you aware of changing currency exchange rates.
