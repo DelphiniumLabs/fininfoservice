@@ -1,6 +1,6 @@
 package com.goit.fininfoservice.telegram.contoller;
 
-import com.goit.fininfoservice.telegram.service.MessegeService;
+import com.goit.fininfoservice.telegram.service.MessageService;
 import org.springframework.stereotype.Controller;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 //обработка команд
 @Controller
 public class ComandController {
-    private MessegeService service = new MessegeService();
+    private MessageService service = new MessageService();
 
     public EditMessageText commandProcessing(Update update){
         String command = update.getCallbackQuery().getData();

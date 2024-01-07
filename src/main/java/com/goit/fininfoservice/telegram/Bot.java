@@ -2,7 +2,7 @@ package com.goit.fininfoservice.telegram;
 
 
 import com.goit.fininfoservice.telegram.contoller.ComandController;
-import com.goit.fininfoservice.telegram.service.MessegeService;
+import com.goit.fininfoservice.telegram.service.MessageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -21,7 +21,7 @@ public class Bot extends TelegramLongPollingBot {
         if(update.hasMessage() && update.getMessage().hasText()){
             if(update.getMessage().getText().equals("/start")){
                 try {
-                    execute(new MessegeService().startPage(update));
+                    execute(new MessageService().startPage(update));
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }

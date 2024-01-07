@@ -1,6 +1,7 @@
 package com.goit.fininfoservice.telegram.service;
 
 import com.goit.fininfoservice.telegram.factory.InlineKeyboardFactory;
+import com.goit.fininfoservice.utils.Constants;
 import org.jvnet.hk2.annotations.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 //функционал генерации каждой страницы
 @Service
-public class MessegeService {
+public class MessageService {
     Map<String, String> mainPage = new LinkedHashMap<>();
     Map<String, String> infoPage = new LinkedHashMap<>();
     Map<String, String> settingPage = new LinkedHashMap<>();
@@ -35,7 +36,7 @@ public class MessegeService {
     public SendMessage startPage(Update update){
         mainPage.put("Отримати інфо", "/info");
         mainPage.put("Налаштування", "/settings");
-        return SendMessage.builder().text("Hello text")
+        return SendMessage.builder().text(Constants.GREETING)
                 .chatId(update.getMessage().getChatId())
                 .replyMarkup(new InlineKeyboardFactory().getMarkap(mainPage))
                 .build();

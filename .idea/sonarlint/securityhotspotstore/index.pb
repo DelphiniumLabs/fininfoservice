@@ -27,3 +27,5 @@ y
 Isrc/test/java/com/goit/fininfoservice/FininfoserviceApplicationTests.java,1\1\11d01b9fb9e5a26e50456998d936d97b988fa583
 j
 :src/main/java/com/goit/fininfoservice/utils/Constants.java,4\0\40174b1750cb595afeace26b1d88ee3d7be8f440
+z
+Jsrc/main/java/com/goit/fininfoservice/telegram/service/MessageService.java,e\1\e1cf18f03ed59d3312886f527f2dd21fcba7c021
