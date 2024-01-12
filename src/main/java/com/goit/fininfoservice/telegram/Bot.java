@@ -1,7 +1,7 @@
 package com.goit.fininfoservice.telegram;
 
 
-import com.goit.fininfoservice.telegram.contoller.ComandController;
+import com.goit.fininfoservice.telegram.contoller.CommandController;
 import com.goit.fininfoservice.telegram.service.MessageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -11,9 +11,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Component
 public class Bot extends TelegramLongPollingBot {
-
-    public Bot(@Value("${bot.token}") String botToken){
+    private final MessageService messageService;
+    private final CommandController commandController;
+    public Bot(@Value("${bot.token}") String botToken, MessageService messageService, CommandController commandController){
         super(botToken);
+        this.messageService=messageService;
+        this.commandController=commandController;
     }
 
     @Override
@@ -21,14 +24,14 @@ public class Bot extends TelegramLongPollingBot {
         if(update.hasMessage() && update.getMessage().hasText()){
             if(update.getMessage().getText().equals("/start")){
                 try {
-                    execute(new MessageService().startPage(update));
+                    execute( messageService.startPage(update));
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
             }
             else{
                 try {
-                    execute(new ComandController().commandProcessing(update));
+                    execute(commandController.commandProcessing(update));
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
@@ -36,7 +39,7 @@ public class Bot extends TelegramLongPollingBot {
         }
         else if(update.hasCallbackQuery()){
             try {
-                execute(new ComandController().commandProcessing(update));
+                execute(commandController.commandProcessing(update));
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }

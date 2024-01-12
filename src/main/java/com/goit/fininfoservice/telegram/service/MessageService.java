@@ -2,30 +2,38 @@ package com.goit.fininfoservice.telegram.service;
 
 import com.goit.fininfoservice.telegram.factory.InlineKeyboardFactory;
 import com.goit.fininfoservice.utils.Constants;
+import lombok.Setter;
 import org.jvnet.hk2.annotations.Service;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 //функционал генерации каждой страницы
 @Service
+@Setter
 public class MessageService {
-    Map<String, String> mainPage = new LinkedHashMap<>();
-    Map<String, String> infoPage = new LinkedHashMap<>();
-    Map<String, String> settingPage = new LinkedHashMap<>();
 
-    Map<String, String> pointAmountSettingPage = new LinkedHashMap<>();
-    Map<String, String> bankSettingPage = new LinkedHashMap<>();
-    Map<String, String> currencySettingPage = new LinkedHashMap<>();
-    Map<String, String> timeSettingPage = new LinkedHashMap<>();
-
+    @Autowired
+    private  Map<String, String> mainPage;
+    @Autowired
+    private Map<String, String> infoPage ;
+    @Autowired
+    private  Map<String, String> settingPage ;
+    @Autowired
+    private  Map<String, String> pointAmountSettingPage ;
+    @Autowired
+    private  Map<String, String> bankSettingPage ;
+    @Autowired
+    private  Map<String, String> currencySettingPage ;
+    @Autowired
+    private  Map<String, String> timeSettingPage ;
 
     public EditMessageText mainPage(Update update){
-        mainPage.put("Отримати інфо", "/info");
-        mainPage.put("Налаштування", "/settings");
+
         return EditMessageText.builder().text("Main page text")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
@@ -34,8 +42,6 @@ public class MessageService {
     }
 
     public SendMessage startPage(Update update){
-        mainPage.put("Отримати інфо", "/info");
-        mainPage.put("Налаштування", "/settings");
         return SendMessage.builder().text(Constants.GREETING)
                 .chatId(update.getMessage().getChatId())
                 .replyMarkup(new InlineKeyboardFactory().getMarkap(mainPage))
@@ -43,8 +49,6 @@ public class MessageService {
     }
 
     public EditMessageText infoPage(Update update){
-        infoPage.put("Обновити", "/updateInfoPage");
-        infoPage.put("Назад", "/backToMainPage");
         return EditMessageText.builder().text("Info text")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
@@ -53,8 +57,6 @@ public class MessageService {
     }
 
     public EditMessageText updateInfoPage(Update update){
-        infoPage.put("Обновити", "/updateInfoPage");
-        infoPage.put("Назад", "/backToMainPage");
         return EditMessageText.builder().text("New info text")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
@@ -63,11 +65,6 @@ public class MessageService {
     }
 
     public EditMessageText settingPage(Update update){
-        settingPage.put("Кількість знаків після коми", "/pointAmountSetting");
-        settingPage.put("Банк", "/bankSetting");
-        settingPage.put("Валюта", "/currencySetting");
-        settingPage.put("Час Сповіщень", "/timeSetting");
-        settingPage.put("Назад", "/backToMainPage");
         return EditMessageText.builder().text("Setting text")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
@@ -76,10 +73,7 @@ public class MessageService {
     }
 
     public EditMessageText pointAmountSettingPage(Update update){
-        pointAmountSettingPage.put("2", "/twoPointAmonunt");
-        pointAmountSettingPage.put("3", "/threePointAmonunt");
-        pointAmountSettingPage.put("4", "/fourPointAmonunt");
-        pointAmountSettingPage.put("Назад", "/backToSettingPage");
+
         return EditMessageText.builder().text("Choose point Amount")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
@@ -88,10 +82,7 @@ public class MessageService {
     }
 
     public EditMessageText bankSettingPage(Update update){
-        bankSettingPage.put("Monobank", "/monobank");
-        bankSettingPage.put("Privat", "/Privat");
-        bankSettingPage.put("Other", "/Other");
-        bankSettingPage.put("Назад", "/backToSettingPage");
+
         return EditMessageText.builder().text("Choose bank")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
@@ -100,10 +91,7 @@ public class MessageService {
     }
 
     public EditMessageText currencySettingPage(Update update){
-        currencySettingPage.put("UAH", "/UAH");
-        currencySettingPage.put("USD", "/USD");
-        currencySettingPage.put("EUR", "/EUR");
-        currencySettingPage.put("Назад", "/backToSettingPage");
+
         return EditMessageText.builder().text("Choose currency")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
@@ -113,18 +101,7 @@ public class MessageService {
 
 
     public EditMessageText timeSettingPage(Update update){
-        timeSettingPage.put("9", "/9Oclock");
-        timeSettingPage.put("10", "/10Oclock");
-        timeSettingPage.put("11", "/11Oclock");
-        timeSettingPage.put("12", "/12Oclock");
-        timeSettingPage.put("13", "/13Oclock");
-        timeSettingPage.put("14", "/14Oclock");
-        timeSettingPage.put("15", "/15Oclock");
-        timeSettingPage.put("16", "/16Oclock");
-        timeSettingPage.put("17", "/17Oclock");
-        timeSettingPage.put("18", "/18Oclock");
-        timeSettingPage.put("Відключити", "/NoNotify");
-        timeSettingPage.put("Назад", "/backToSettingPage");
+
         return EditMessageText.builder().text("Choose time")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
