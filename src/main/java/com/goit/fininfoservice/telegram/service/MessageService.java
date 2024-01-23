@@ -1,7 +1,6 @@
 package com.goit.fininfoservice.telegram.service;
 
-import com.goit.fininfoservice.datasources.impl.PrivatBankDataSourceImpl;
-import com.goit.fininfoservice.telegram.factory.InlineKeyboardFactory;
+import com.goit.fininfoservice.datasources.DataSource;
 import com.goit.fininfoservice.utils.Constants;
 import lombok.Setter;
 import org.jvnet.hk2.annotations.Service;
@@ -10,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
-import java.util.Map;
 import java.util.Optional;
 
 //функционал генерации каждой страницы
@@ -20,29 +19,31 @@ import java.util.Optional;
 public class MessageService {
 
     @Autowired
-    private  Map<String, String> mainPage;
+    private InlineKeyboardMarkup mainPageIkm; // Lazy init
     @Autowired
-    private Map<String, String> infoPage ;
+    private InlineKeyboardMarkup infoPageIkm ;
     @Autowired
-    private  Map<String, String> settingPage ;
+    private  InlineKeyboardMarkup settingPageIkm ;
     @Autowired
-    private  Map<String, String> pointAmountSettingPage ;
+    private  InlineKeyboardMarkup pointAmountSettingPageIkm;
     @Autowired
-    private  Map<String, String> bankSettingPage ;
+    private  InlineKeyboardMarkup bankSettingPageIkm;
     @Autowired
-    private  Map<String, String> currencySettingPage ;
+    private  InlineKeyboardMarkup currencySettingPageIkm;
     @Autowired
-    private  Map<String, String> timeSettingPage ;
+    private  InlineKeyboardMarkup timeSettingPageIkm;
+    /*
+    @Autowired
+    private RestApiReactiveDataSource privatBankReactiveDataSource;*/
 
     @Autowired
-    private PrivatBankDataSourceImpl  privatBankDataSource;
-
+    private DataSource<String> privatBankReactiveDataSource;
     public EditMessageText mainPage(Update update){
 
         return EditMessageText.builder().text("Main page text")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
-                .replyMarkup(new InlineKeyboardFactory().getMarkup(mainPage))
+                .replyMarkup(this.mainPageIkm) //new InlineKeyboardFactory().getMarkup(mainPage)
                 .build();
     }
 
@@ -50,27 +51,33 @@ public class MessageService {
 
         return SendMessage.builder().text(Constants.GREETING)
                 .chatId(update.getMessage().getChatId())
-                .replyMarkup(new InlineKeyboardFactory().getMarkup(mainPage))
+                .replyMarkup(this.mainPageIkm)
                 .build();
     }
 
     public EditMessageText infoPage(Update update){
-        String infoText = privatBankDataSource.fetchData().block();
+        String infoText = privatBankReactiveDataSource.fetchData().block();
         return EditMessageText.builder().text(
                 Optional.ofNullable(infoText).
                         orElse("Someting goes wrong!!!"
                         ))
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
-                .replyMarkup(new InlineKeyboardFactory().getMarkup(infoPage))
+                .replyMarkup(this.infoPageIkm)
                 .build();
     }
 
     public EditMessageText updateInfoPage(Update update){
-        return EditMessageText.builder().text("New info text")
+        String infoText = Optional.ofNullable(
+                privatBankReactiveDataSource
+                        .fetchData()
+                        .block())
+                .orElse("Someting goes wrong!!!"
+                );
+        return EditMessageText.builder().text(infoText)
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
-                .replyMarkup(new InlineKeyboardFactory().getMarkup(infoPage))
+                .replyMarkup(this.infoPageIkm)
                 .build();
     }
 
@@ -78,7 +85,7 @@ public class MessageService {
         return EditMessageText.builder().text("Setting text")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
-                .replyMarkup(new InlineKeyboardFactory().getMarkup(settingPage))
+                .replyMarkup(this.settingPageIkm)
                 .build();
     }
 
@@ -87,7 +94,7 @@ public class MessageService {
         return EditMessageText.builder().text("Choose point Amount")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
-                .replyMarkup(new InlineKeyboardFactory().getMarkup(pointAmountSettingPage))
+                .replyMarkup(pointAmountSettingPageIkm)
                 .build();
     }
 
@@ -96,7 +103,7 @@ public class MessageService {
         return EditMessageText.builder().text("Choose bank")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
-                .replyMarkup(new InlineKeyboardFactory().getMarkup(bankSettingPage))
+                .replyMarkup(bankSettingPageIkm)
                 .build();
     }
 
@@ -105,7 +112,7 @@ public class MessageService {
         return EditMessageText.builder().text("Choose currency")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
-                .replyMarkup(new InlineKeyboardFactory().getMarkup(currencySettingPage))
+                .replyMarkup(currencySettingPageIkm)
                 .build();
     }
 
@@ -115,7 +122,7 @@ public class MessageService {
         return EditMessageText.builder().text("Choose time")
                 .chatId(update.getCallbackQuery().getMessage().getChatId())
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
-                .replyMarkup(new InlineKeyboardFactory().getDoubleLineMarkup(timeSettingPage))
+                .replyMarkup(timeSettingPageIkm)
                 .build();
     }
 

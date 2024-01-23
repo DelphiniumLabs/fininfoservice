@@ -1,42 +1,18 @@
-package com.goit.fininfoservice.telegram.configuration;
+package com.goit.fininfoservice.telegram.keyboards.configuration;
 
+import com.goit.fininfoservice.telegram.keyboards.factory.InlineKeyboardFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Configuration
-public class ButtonPagesConfiguration {
+public class SettingsButtonsConfig {
     @Bean
-    public Map<String,String> mainPage(){
-        Map<String,String> mainPage =new LinkedHashMap<>();
-        mainPage.put("Отримати інфо", "/info");
-        mainPage.put("Налаштування", "/settings");
-        return mainPage;
-    }
-
-    @Bean
-    public Map<String,String> infoPage(){
-        Map<String,String> infoPage =new LinkedHashMap<>();
-        infoPage.put("Обновити", "/updateInfoPage");
-        infoPage.put("Назад", "/backToMainPage");
-        return infoPage;
-    }
-
-    @Bean
-    public  Map<String,String> settingPage(){
-        Map<String,String> settingPage =new LinkedHashMap<>();
-
-        settingPage.put("Кількість знаків після коми", "/pointAmountSetting");
-        settingPage.put("Банк", "/bankSetting");
-        settingPage.put("Валюта", "/currencySetting");
-        settingPage.put("Час Сповіщень", "/timeSetting");
-        settingPage.put("Назад", "/backToMainPage");
-        return  settingPage;
-    }
-    @Bean
-    public  Map<String, String> pointAmountSettingPage(){
+    Map<String, String> pointAmountSettingPage(){
         Map<String, String> pointAmountSettingPage = new LinkedHashMap<>();
         pointAmountSettingPage.put("2", "/twoPointAmount");
         pointAmountSettingPage.put("3", "/threePointAmount");
@@ -45,7 +21,12 @@ public class ButtonPagesConfiguration {
         return pointAmountSettingPage;
     }
     @Bean
-    public  Map<String, String> bankSettingPage() {
+    @Lazy(true)
+    public InlineKeyboardMarkup pointAmountSettingPageIkm(Map<String,String> pointAmountSettingPage){
+        return new InlineKeyboardFactory().getMarkup(pointAmountSettingPage);
+    }
+    @Bean
+    Map<String, String> bankSettingPage() {
         Map<String, String> bankSettingPage = new LinkedHashMap<>();
         bankSettingPage.put("Monobank", "/monobank");
         bankSettingPage.put("Privat", "/Privat");
@@ -54,7 +35,13 @@ public class ButtonPagesConfiguration {
         return bankSettingPage;
     }
     @Bean
-    public  Map<String, String> currencySettingPage() {
+    @Lazy(true)
+    public InlineKeyboardMarkup bankSettingPageIkm(Map<String,String> bankSettingPage){
+        return new InlineKeyboardFactory().getMarkup(bankSettingPage);
+    }
+
+    @Bean
+    Map<String, String> currencySettingPage() {
         Map<String, String> currencySettingPage = new LinkedHashMap<>();
         currencySettingPage.put("UAH", "/UAH");
         currencySettingPage.put("USD", "/USD");
@@ -63,7 +50,12 @@ public class ButtonPagesConfiguration {
         return currencySettingPage;
     }
     @Bean
-    public  Map<String, String> timeSettingPage() {
+    @Lazy(true)
+    public InlineKeyboardMarkup currencySettingPageIkm(Map<String,String> currencySettingPage){
+        return new InlineKeyboardFactory().getMarkup(currencySettingPage);
+    }
+    @Bean
+    Map<String, String> timeSettingPage() {
         Map<String, String> timeSettingPage = new LinkedHashMap<>();
         timeSettingPage.put("9", "/9Oclock");
         timeSettingPage.put("10", "/10Oclock");
@@ -75,9 +67,15 @@ public class ButtonPagesConfiguration {
         timeSettingPage.put("16", "/16Oclock");
         timeSettingPage.put("17", "/17Oclock");
         timeSettingPage.put("18", "/18Oclock");
+        timeSettingPage.put("19", "/18Oclock");
         timeSettingPage.put("Відключити", "/NoNotify");
         timeSettingPage.put("Назад", "/backToSettingPage");
         return timeSettingPage;
+    }
+    @Bean
+    @Lazy(true)
+    public InlineKeyboardMarkup timeSettingPageIkm(Map<String,String> timeSettingPage){
+        return new InlineKeyboardFactory().getMarkup(timeSettingPage);
     }
 
 }

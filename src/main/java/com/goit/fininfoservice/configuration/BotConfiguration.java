@@ -28,7 +28,7 @@ public class BotConfiguration {
     }
     @Bean
     @DependsOn("messageService")
-    public CommandController commandController(){
-        return new CommandController();
+    public CommandController commandController(MessageService messageService){
+        return new CommandController(messageService);
     }
 }

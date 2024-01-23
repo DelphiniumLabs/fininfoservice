@@ -1,4 +1,4 @@
-package com.goit.fininfoservice.telegram.factory;
+package com.goit.fininfoservice.telegram.keyboards.factory;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -28,8 +28,9 @@ public class InlineKeyboardFactory {
     public InlineKeyboardMarkup getDoubleLineMarkup(Map<String, String> buttons){
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
         final Set<Map.Entry<String, String>> buttonsEntrySet = buttons.entrySet();
+        int iMax = buttonsEntrySet.size()%2==0 ? buttonsEntrySet.size()/2 : buttonsEntrySet.size()/2+1;
         final List<List<InlineKeyboardButton>> rowList =
-                IntStream.range(0, buttonsEntrySet.size()/2).
+                IntStream.range(0, iMax).
                         mapToObj(
                                 i->buttonsEntrySet.
                                 stream().skip(i*2L).limit(2).
