@@ -5,11 +5,12 @@ import com.goit.fininfoservice.telegram.contoller.CommandController;
 import com.goit.fininfoservice.telegram.service.MessageService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
-import java.util.Map;
+
 
 @Configuration
 public class BotConfiguration {
@@ -26,7 +27,8 @@ public class BotConfiguration {
 
     }
     @Bean
-    public CommandController commandController(){
-        return new CommandController();
+    @DependsOn("messageService")
+    public CommandController commandController(MessageService messageService){
+        return new CommandController(messageService);
     }
 }

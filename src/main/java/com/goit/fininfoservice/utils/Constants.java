@@ -4,7 +4,7 @@ public class Constants {
 
     private Constants(){}
     public static final String GREETING = """ 
-            Hello my dear friend! I am The Financial Information Bot.
+            Hello! I am The Financial Information Bot.
             I will keep you aware of changing currency exchange rates.
             """;
     public static final String UNKNOWN_COMMAND_TEXT = """

@@ -1,18 +1,17 @@
 package com.goit.fininfoservice.telegram.contoller;
 
 import com.goit.fininfoservice.telegram.service.MessageService;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-//обработка команд
-@Setter
+//Command handler
+@RequiredArgsConstructor
 @Service
 public class CommandController {
-    @Autowired
-    private  MessageService messageService;
+
+    private final MessageService messageService;
     public EditMessageText commandProcessing(Update update){
         String command = update.getCallbackQuery().getData();
         return switch (command){
