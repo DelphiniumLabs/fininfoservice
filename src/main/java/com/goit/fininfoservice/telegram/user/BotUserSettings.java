@@ -3,12 +3,13 @@ package com.goit.fininfoservice.telegram.user;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
-public class BotUser {
+public class BotUserSettings {
     BigDecimal id;
-    String firstName;
-    String lastName;
-    String userName;
+    BotUser botUser;
+    List<String> dataSources;
+
 
 }

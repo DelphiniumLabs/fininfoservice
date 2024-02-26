@@ -4,6 +4,7 @@ import com.goit.fininfoservice.telegram.keyboards.factory.InlineKeyboardFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.util.LinkedHashMap;
@@ -11,14 +12,17 @@ import java.util.Map;
 
 @Configuration
 public class ControlButtonsConfig {
+
     @Bean
     Map<String,String> mainPage(){
+        System.out.println(" Map<String,String> mainPage  ------------");
         Map<String,String> mainPage =new LinkedHashMap<>();
         mainPage.put("Отримати інфо", "/info");
         mainPage.put("Налаштування", "/settings");
         return mainPage;
     }
     @Bean
+    @Scope("prototype")
     @Lazy(true)
     public InlineKeyboardMarkup mainPageIkm(Map<String,String> mainPage){
         return new InlineKeyboardFactory().getMarkup(mainPage);
@@ -32,6 +36,7 @@ public class ControlButtonsConfig {
         return infoPage;
     }
     @Bean
+    @Scope("prototype")
     @Lazy(true)
     public InlineKeyboardMarkup infoPageIkm(Map<String,String> infoPage){
         return new InlineKeyboardFactory().getMarkup(infoPage);
@@ -49,9 +54,9 @@ public class ControlButtonsConfig {
         return  settingPage;
     }
     @Bean
+    @Scope("prototype")
     @Lazy(true)
     public InlineKeyboardMarkup settingPageIkm(Map<String,String> settingPage){
         return new InlineKeyboardFactory().getMarkup(settingPage);
     }
-
 }

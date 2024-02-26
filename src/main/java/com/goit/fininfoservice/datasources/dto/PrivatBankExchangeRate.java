@@ -1,8 +1,7 @@
-package com.goit.fininfoservice.datasources.privatbank.dto;
+package com.goit.fininfoservice.datasources.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-
 @Data
 public class PrivatBankExchangeRate {
     @JsonProperty("ccy")
@@ -16,4 +15,16 @@ public class PrivatBankExchangeRate {
 
     @JsonProperty("sale")
     private double saleRate;
+
+    @Override
+    public String toString() {
+        return "Privat Bank Ex. rate  {" +
+                "'" + currency + '\'' +
+                "/'" + baseCurrency + '\'' +
+                ", Buy =" + buyRate +
+                ", Sale =" + saleRate +
+                '}';
+    }
+
+
 }

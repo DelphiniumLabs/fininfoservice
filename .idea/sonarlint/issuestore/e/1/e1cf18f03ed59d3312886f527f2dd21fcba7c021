@@ -1,18 +1,34 @@
 
+g	java:S112Y"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8òÜ¸ÃØ1
+g	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8óÜ¸ÃØ1
+h	java:S112“"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ôÜ¸ÃØ1
+f
+java:S1192>"IDefine a constant instead of duplicating this literal "markdown" 8 times.(¿‡Õˆ8øÜ¸ÃØ1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÍøÀÓ1
+java:S6813#"BRemove this field injection and use constructor injection instead.(êæÄŞ8¼ß¸ÃØ1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÍøÀÓ1
+java:S6813%"BRemove this field injection and use constructor injection instead.(êæÄŞ8¾ß¸ÃØ1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÍøÀÓ1
+java:S6813'"BRemove this field injection and use constructor injection instead.(êæÄŞ8¿ß¸ÃØ1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÍøÀÓ1
+java:S6813)"BRemove this field injection and use constructor injection instead.(êæÄŞ8Áß¸ÃØ1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÍøÀÓ1
+java:S6813+"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ãß¸ÃØ1
 _
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÍøÀÓ1
+java:S6813-"BRemove this field injection and use constructor injection instead.(êæÄŞ8Äß¸ÃØ1
 _
-java:S6813!"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÍøÀÓ1
+java:S6813/"BRemove this field injection and use constructor injection instead.(êæÄŞ8Æß¸ÃØ1
 _
-java:S6813'"BRemove this field injection and use constructor injection instead.(êæÄŞ8ÍøÀÓ1
-X	java:S125%"<This block of commented-out lines of code should be removed.(ßæÄÀ8“ÍøÀÓ1
+java:S68132"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ìß¸ÃØ1
+_
+java:S68138"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ìß¸ÃØ1
+_
+java:S6813:"BRemove this field injection and use constructor injection instead.(êæÄŞ8Íß¸ÃØ1
+L	java:S106^"+Replace this use of System.out by a logger.(Õõ§Åøÿÿÿÿ8¹à¸ÃØ1
+T
+java:S1135]"2Complete the task associated to this TODO comment.(è©ò¿ùÿÿÿÿ8¹à¸ÃØ1
+G	java:S106_"+Replace this use of System.out by a logger.(Ã²¹8»à¸ÃØ1
+H	java:S106"+Replace this use of System.err by a logger.(èìãÖ8Èà¸ÃØ1
+H	java:S106•"+Replace this use of System.err by a logger.(¾ÀâÁ8Ïà¸ÃØ1
+^	java:S125£"<This block of commented-out lines of code should be removed.(ëê—ùÿÿÿÿÿ8Ôà¸ÃØ1
+^	java:S125¥"<This block of commented-out lines of code should be removed.(÷¬¬Îøÿÿÿÿ8Ôà¸ÃØ1
