@@ -3,7 +3,7 @@ package com.goit.fininfoservice.datasources.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 @Data
-public class PrivatBankExchangeRate {
+public class PrivatBankExchangeRateDTO {
     @JsonProperty("ccy")
     private String currency;
 
@@ -18,7 +18,7 @@ public class PrivatBankExchangeRate {
 
     @Override
     public String toString() {
-        return "Privat Bank Ex. rate  {" +
+        return "{" +
                 "'" + currency + '\'' +
                 "/'" + baseCurrency + '\'' +
                 ", Buy =" + buyRate +

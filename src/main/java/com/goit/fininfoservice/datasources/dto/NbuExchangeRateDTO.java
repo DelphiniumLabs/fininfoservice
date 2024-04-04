@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class NbuExchangeRate {
+public class NbuExchangeRateDTO {
     @JsonProperty("r030")
     private int r030;
 
@@ -21,9 +21,6 @@ public class NbuExchangeRate {
     private String exchangeDate;
 
     public String toString() {
-        return "NBU Ex. rate  {" +
-                "rate=" + rate +
-                ",'" + currencyCode + "/UAH '" +
-                '}';
+        return "|" + currencyCode + ' ' + rate  + " 'UAH '" ;
     }
 }

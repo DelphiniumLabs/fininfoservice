@@ -33,6 +33,7 @@ public class Bot extends TelegramLongPollingBot {
         try {
             if (update.hasMessage() && update.getMessage().hasText()) {
                 if (update.getMessage().getText().equals("/start")) {
+
                     execute(messageService.startPage(update));
                 }
             } else if (update.hasCallbackQuery()) {
@@ -46,8 +47,13 @@ public class Bot extends TelegramLongPollingBot {
     public String getBotUsername() {
         return "RateBot";
     }
+
     //--------------------------------------------------------------------------
-// methods for Danila Adyrhaiev
+
+
+
+
+    // methods for Danila Adyrhaiev
     // Общий метод executeMethods, принимающий разные типы параметров
     public <T extends Serializable, Method extends BotApiMethod<T>> void executeMethods(Method method) {
         try {

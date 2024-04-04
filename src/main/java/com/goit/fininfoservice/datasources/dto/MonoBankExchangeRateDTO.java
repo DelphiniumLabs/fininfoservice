@@ -1,13 +1,10 @@
 package com.goit.fininfoservice.datasources.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 
-import java.io.IOException;
-
 @Data
-public class MonoBankExchangeRate {
+public class MonoBankExchangeRateDTO {
     @JsonProperty("currencyCodeA")
     private int currencyCodeA;
 
@@ -28,16 +25,11 @@ public class MonoBankExchangeRate {
 
     @Override
     public String toString() {
-        return "Mono Bank Ex Rate {" +
-                "CodeA=" + currencyCodeA +
-                ", CodeB=" + currencyCodeB +
+        return
+                currencyCodeA +
+                "/" + currencyCodeB +
                 ", Buy = " + rateBuy +
-                ", Sell = " + rateSell +
-                '}';
+                ", Sell = " + rateSell;
     }
 
-    public static MonoBankExchangeRate fromJson(String json) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(json, MonoBankExchangeRate.class);
-    }
 }

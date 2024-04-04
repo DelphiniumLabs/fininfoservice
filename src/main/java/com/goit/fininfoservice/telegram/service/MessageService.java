@@ -2,11 +2,15 @@ package com.goit.fininfoservice.telegram.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goit.fininfoservice.datasources.Banks;
 import com.goit.fininfoservice.datasources.ExchangeRateController;
-import com.goit.fininfoservice.datasources.dto.MonoBankExchangeRate;
-import com.goit.fininfoservice.datasources.dto.NbuExchangeRate;
-import com.goit.fininfoservice.datasources.dto.PrivatBankExchangeRate;
+import com.goit.fininfoservice.datasources.ExchangeRateService;
+import com.goit.fininfoservice.datasources.dto.MonoBankExchangeRateDTO;
+import com.goit.fininfoservice.datasources.dto.NbuExchangeRateDTO;
+import com.goit.fininfoservice.datasources.dto.PrivatBankExchangeRateDTO;
 import com.goit.fininfoservice.telegram.keyboards.factory.InlineKeyboardFactory;
+import com.goit.fininfoservice.telegram.view.impl.MonoBankExRatePrettifier;
+import com.goit.fininfoservice.telegram.view.impl.PrivatBankExRatesPrettifier;
 import com.goit.fininfoservice.utils.Constants;
 import com.goit.fininfoservice.utils.CurrencyCode;
 import lombok.Setter;
@@ -49,10 +53,20 @@ public class MessageService {
 
     @Autowired
     private  ExchangeRateController erc;
-
     private Mono<String> privatMonoString;
     private Mono<String> nbuMonoString;
     private Mono<String> monoMonoString;
+
+    // new version injection
+    @Autowired
+    private ExchangeRateService exchangeRateService;
+    // prettifiers
+    // It is used to prettify data from bank and make it more readable.
+    @Autowired
+    private MonoBankExRatePrettifier monoBankExRatePrettifier;
+    @Autowired
+    private PrivatBankExRatesPrettifier privatBankExRatesPrettifier;
+
     @Autowired
     private InlineKeyboardFactory inlineKeyboardFactory;
     @Autowired
@@ -67,102 +81,102 @@ public class MessageService {
     }
 
     public SendMessage startPage(Update update){
+        String userOfChat=update.getMessage().getFrom().getUserName();
 
-        return SendMessage.builder().text(Constants.GREETING)
+        return SendMessage.builder().text("\n" + userOfChat+"\n"+Constants.GREETING)
                 .chatId(update.getMessage().getChatId())
                 .replyMarkup(this.mainPageIkm)
                 .build();
     }
 
-    public EditMessageText infoPage(Update update){
-        StringBuilder infoText= new StringBuilder();
-        if (Objects.isNull(privatMonoString)) {
-                      privatMonoString=erc.privatBank();
-        }
+    public EditMessageText infoPage(Update update) {
+        StringBuilder infoText = new StringBuilder();
+        infoText.append(
+                monoBankExRatePrettifier.prettify1(exchangeRateService.
+                        getExRateFromBank(Banks.MONO, MonoBankExchangeRateDTO[].class).stream()
+                        .filter(rate -> List.of(840, 978, 971, 944, 156).contains(rate.getCurrencyCodeA()))
+                        .toList()
+                        ,"*Mono Bank exchange rates:*"
+                )
+        );
 
-        infoText.append(privatMonoString.blockOptional().orElse("Someting goes wrong with PRIVATBANK!!!"));
-        PrivatBankExchangeRate[] pvtBnk;
-        try {
-            pvtBnk = (new ObjectMapper()).
-                    readValue( infoText.toString(), PrivatBankExchangeRate[].class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        if (Objects.nonNull(pvtBnk)) {
-            // todo: replace with Logger
-            System.out.println(LocalDateTime.now());
-            Arrays.stream(pvtBnk).forEach(p->System.out.println(p.toString()));
-        }
-
-        return EditMessageText.builder().text(
-                        LocalDateTime.now().toString() +'\n'+infoText)
-                .chatId(update.getCallbackQuery().getMessage().getChatId())
-                .messageId(update.getCallbackQuery().getMessage().getMessageId())
-                .replyMarkup(this.infoPageIkm)
-                .build();
+        return prepareEditMassage(update, infoText.toString(), this.infoPageIkm);
     }
+    public EditMessageText updateInfoPage1(Update update){
+
+        StringBuilder infoText = new StringBuilder();
+        infoText.append(
+                privatBankExRatesPrettifier.prettify1(exchangeRateService.
+                                getExRateFromBank(Banks.PRIVAT, PrivatBankExchangeRateDTO[].class)
+                        ,"*Privat Bank exchange rates:*"
+                )
+        );
+        return prepareEditMassage(update, infoText.toString(), this.infoPageIkm);
+    }
+
 
     public EditMessageText updateInfoPage(Update update){
 
         StringBuilder infoText =  new StringBuilder();
+
+        List<NbuExchangeRateDTO> nbuBnkList= new ArrayList<>();
+        List<MonoBankExchangeRateDTO> monoBankList = new ArrayList<>();
         //monobank
         if (Objects.isNull(monoMonoString)) {
             monoMonoString = erc.monoBank().log();
         }
-
         //national bank of Ukraine
         if (Objects.isNull(nbuMonoString)){
             nbuMonoString=erc.nbu().log().cache(Duration.ofMinutes(3));
         }
 
-        List<NbuExchangeRate> nbuBnkList= new ArrayList<>();
-        List<MonoBankExchangeRate> monoBankList = new ArrayList<>();
-
-        nbuMonoString.subscribe(value->{
-                try {
-
-                    nbuBnkList.addAll(Arrays.asList((new ObjectMapper()).readValue(value,NbuExchangeRate[].class))) ;
-                }catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
-                }
-        },error -> System.err.println("Error occurred: " + error),    // Consumer для ошибки
-                () -> {if (!nbuBnkList.isEmpty()){
-                    infoText.append(LocalDateTime.now()).append('\n')
+        nbuMonoString.subscribe(
+                value->{
+                    try {
+                        nbuBnkList.addAll(Arrays.asList((new ObjectMapper()).readValue(value, NbuExchangeRateDTO[].class))) ;
+                    }catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
+                    }
+                    ,error -> System.err.println("Error occurred: " + error)
+                ,() -> {
+                    if (!nbuBnkList.isEmpty()){
+                        infoText.append(LocalDateTime.now()).append('\n')
                             .append(
                                     nbuBnkList.stream()
                                             .filter(rate->"EUR,USD,AUD,CZK,CAD".contains(rate.getCurrencyCode())).
-                                            map(NbuExchangeRate::toString)
+                                            map(NbuExchangeRateDTO::toString)
                                             .collect(Collectors.joining("\n"))
                             );
-                }else{infoText.append("Nbu response Empty\n");}
-        }
-        );
+                }else{
+                        infoText.append("Nbu response Empty\n");
+                    }
+                });
 
-        monoMonoString.subscribe(value->{
-
-                try {
-                    monoBankList.addAll(Arrays.asList((new ObjectMapper()).readValue(value,MonoBankExchangeRate[].class))) ;
-                } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
-                }
-                },error -> System.err.println("Error occurred: " + error),
-                ()->{if (!monoBankList.isEmpty()){
-                    infoText.append(LocalDateTime.now())
+        monoMonoString.subscribe(
+                value->{
+                    try {
+                        monoBankList.addAll(Arrays.asList((new ObjectMapper()).readValue(value, MonoBankExchangeRateDTO[].class))) ;
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
+                    }
+                    ,error -> System.err.println("Error occurred: " + error)
+                ,()->{
+                    if (!monoBankList.isEmpty()){
+                        infoText.append("\n").append(LocalDateTime.now()).append("\n")
                             .append(monoBankList.stream()
                                     .filter(rate-> List.of(840,978,971,944,156)
                                             .contains(rate.getCurrencyCodeA())
                                     )
-                                    .map(MonoBankExchangeRate::toString)
+                                    .map(MonoBankExchangeRateDTO::toString)
                                     .collect(Collectors.joining("\n"))
                             );
-                }else{infoText.append("Mono bank response Empty\n");
+                }else{
+                        infoText.append("Mono bank response Empty\n");
                 }
-        });
+                });
 
-        // --there was a nbu if (!nbuBnkList.isEmpty()){...
-
-        // --there was a monobank if (!monoBnkList.isEmpty()){...
         infoText.append(infoText.isEmpty() ? "Data hasn't ready yet. Try again please." : "");
         return EditMessageText.builder().text(infoText.toString())
                 .chatId(update.getCallbackQuery().getMessage().getChatId())

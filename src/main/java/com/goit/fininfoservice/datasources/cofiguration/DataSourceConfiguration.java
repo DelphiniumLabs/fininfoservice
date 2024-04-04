@@ -8,9 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.reactive.function.client.WebClient;
 
+
 @Configuration
 public class DataSourceConfiguration {
 
+    // PrivatBank
     @Bean
     @DependsOn("webClientBuilder")
     public WebClientDataSource privatBankReactiveDataSource(
@@ -20,7 +22,7 @@ public class DataSourceConfiguration {
     {
         return new WebClientDataSource(baseUrl,uri, webClientBuilder);
     }
-
+    // National bank of Ukraine
     @Bean
     @DependsOn("webClientBuilder")
     public WebClientDataSource nbuBankReactiveDataSource(
@@ -28,9 +30,9 @@ public class DataSourceConfiguration {
             @Value("${bank.nbu.exchange.rate.uri}")String uri,
             WebClient.Builder webClientBuilder)
     {
-
         return new WebClientDataSource(baseUrl,uri, webClientBuilder);
     }
+    // Mono bank datasource config
     @Value("${bank.mono.request.delay}")
     private long ttl;
     @Bean
@@ -39,9 +41,11 @@ public class DataSourceConfiguration {
             @Value("${bank.mono.base.url}") String baseUrl,
             @Value("${bank.mono.exchange.rate.uri}")String uri,
             WebClient.Builder webClientBuilder)  {
-        WebClientDataSourceCached wcdsc=new WebClientDataSourceCached(baseUrl, uri, webClientBuilder);
-        wcdsc.setTtl(this.ttl);
-           return wcdsc;
+        WebClientDataSourceCached webClientDataSourceCached =
+                new WebClientDataSourceCached(baseUrl, uri, webClientBuilder);
+        webClientDataSourceCached.setTtl(this.ttl);
+           return webClientDataSourceCached;
     }
+
 
 }
