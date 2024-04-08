@@ -37,7 +37,7 @@ public class InlineKeyboardFactory {
                                 map(
                                         entry ->
                                                 InlineKeyboardButton.builder().
-                                                text(entry.getKey()).
+                                                text(entry.getKey()+" ✅").
                                                 callbackData(entry.getValue())
                                                 .build()
                                 ).

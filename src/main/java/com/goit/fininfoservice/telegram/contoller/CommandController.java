@@ -16,7 +16,7 @@ public class CommandController {
         String command = update.getCallbackQuery().getData();
         return switch (command){
             case "/info" -> messageService.infoPage(update);
-            case "/updateInfoPage" -> messageService.updateInfoPage(update);
+            case "/updateInfoPage" -> messageService.updateInfoPage1(update);// updateInfoPage1
             case "/backToMainPage" -> messageService.mainPage(update);
             case "/settings" -> messageService.settingPage(update);
             case "/backToSettingPage" -> messageService.settingPage(update);
