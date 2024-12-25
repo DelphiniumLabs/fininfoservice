@@ -83,11 +83,12 @@ public class MessageService {
     public SendMessage startPage(Update update){
         String userOfChat=update.getMessage().getFrom().getUserName();
 
-        return SendMessage.builder().text("\n" + userOfChat+"\n"+Constants.GREETING)
+        return SendMessage.builder().text("\n" + userOfChat+"\n"+Constants.GREETING+"Active Threads count="+Thread.currentThread().getId())
                 .chatId(update.getMessage().getChatId())
                 .replyMarkup(this.mainPageIkm)
                 .build();
     }
+
 
     public EditMessageText infoPage(Update update) {
         StringBuilder infoText = new StringBuilder();
@@ -102,6 +103,16 @@ public class MessageService {
 
         return prepareEditMassage(update, infoText.toString(), this.infoPageIkm);
     }
+    public SendMessage stopPage(Update update){
+        String chatUser = update.getMessage().getFrom().getUserName();
+
+
+        return SendMessage.builder().text("\n" + chatUser+"\n"+Constants.STOP_TEXT)
+                .chatId(update.getMessage().getChatId())
+                .replyMarkup(this.mainPageIkm)
+                .build();
+    }
+
     public EditMessageText updateInfoPage1(Update update){
 
         StringBuilder infoText = new StringBuilder();
@@ -220,7 +231,7 @@ public class MessageService {
                 .messageId(update.getCallbackQuery().getMessage().getMessageId())
                 .replyMarkup(ikmCurr)
                 .build();
-        //currencySettingPageIkm
+
     }
 
 

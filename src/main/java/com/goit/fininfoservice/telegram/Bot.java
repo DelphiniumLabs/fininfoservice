@@ -2,11 +2,14 @@ package com.goit.fininfoservice.telegram;
 
 
 import com.goit.fininfoservice.telegram.contoller.CommandController;
+import com.goit.fininfoservice.telegram.service.KeyboardMassageService;
 import com.goit.fininfoservice.telegram.service.MessageService;
+import com.goit.fininfoservice.utils.BotStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -21,36 +24,51 @@ public class Bot extends TelegramLongPollingBot {
     private LocalDateTime lastOnUpdateReceived;
     private final MessageService messageService;
     private final CommandController commandController;
-    public Bot(@Value("${bot.token}") String botToken, MessageService messageService, CommandController commandController){
+    private BotStatus botStatus = BotStatus.AWATING_COMDAND;
+
+    public Bot(@Value("${bot.token}") String botToken, MessageService messageService,
+               CommandController commandController){
         super(botToken);
         this.messageService=messageService;
         this.commandController=commandController;
         lastOnUpdateReceived=LocalDateTime.now().minus(500, ChronoUnit.MILLIS);
     }
+
     @Override
     public void onUpdateReceived(Update update) {
 
         try {
-            if (update.hasMessage() && update.getMessage().hasText()) {
-                if (update.getMessage().getText().equals("/start")) {
+            if (botStatus != BotStatus.STOPPED) {
 
-                    execute(messageService.startPage(update));
+                if (update.hasMessage() && update.getMessage().hasText()) {
+                    if (update.getMessage().getText().equals("/start")) {
+                        botStatus = BotStatus.STARTED;
+                       // execute(messageService.startPage(update));
+                        sendApiMethodAsync(messageService.startPage(update));
+                    }
+                    if (update.getMessage().getText().equals("/stop")) {
+                        botStatus = BotStatus.STOPPED;
+                       System.out.println("--------->"+messageService.stopPage(update).toString());
+                    }
+                } else if (update.hasCallbackQuery()) {
+
+                    execute(commandController.commandProcessing(update));
+
                 }
-            } else if (update.hasCallbackQuery()) {
-                execute(commandController.commandProcessing(update));
+            } else {
+                execute(messageService.stopPage(update));
             }
-        }catch(TelegramApiException e){
+        } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
+
+
     @Override
     public String getBotUsername() {
+
         return "RateBot";
     }
-
-    //--------------------------------------------------------------------------
-
-
 
 
     // methods for Danila Adyrhaiev
@@ -62,6 +80,7 @@ public class Bot extends TelegramLongPollingBot {
             e.printStackTrace(); // Обработка ошибок при неудачных вызовах
         }
     }
+
     // Метод для списка аргументов
     public <T extends Serializable, Method extends BotApiMethod<T>> void executeMethods(List<Method> methods) {
         for (Method method : methods) {

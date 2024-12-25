@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 //Фабрика кнопок под текстом
 @Component
 public class InlineKeyboardFactory {
+
     public InlineKeyboardMarkup getMarkup(Map<String, String> buttons){
         InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
@@ -31,18 +32,12 @@ public class InlineKeyboardFactory {
         int iMax = buttonsEntrySet.size()%2==0 ? buttonsEntrySet.size()/2 : buttonsEntrySet.size()/2+1;
         final List<List<InlineKeyboardButton>> rowList =
                 IntStream.range(0, iMax).
-                        mapToObj(
-                                i->buttonsEntrySet.
-                                stream().skip(i*2L).limit(2).
-                                map(
-                                        entry ->
-                                                InlineKeyboardButton.builder().
+                        mapToObj(i->buttonsEntrySet.stream().skip(i*2L).limit(2).
+                                map(entry ->InlineKeyboardButton.builder().
                                                 text(entry.getKey()+" ✅").
                                                 callbackData(entry.getValue())
                                                 .build()
-                                ).
-                                toList()).
-                        toList();
+                                ).toList()).toList();
 
         markup.setKeyboard(rowList);
         return markup;

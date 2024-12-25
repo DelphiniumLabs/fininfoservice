@@ -35,12 +35,16 @@ public class ExchangeRateController {
         return privatBankReactiveDataSource.fetchData();
     }
     public  Mono<String> nbu(){
+
         return nbuBankReactiveDataSource.fetchData();
     }
     public  Mono<String> privatBank(){
+
         return privatBankReactiveDataSource.fetchData();
     }
-    public Mono<String> monoBank() {return monoBankReactiveDataSource.fetchData();}
+    public Mono<String> monoBank() {
+        return monoBankReactiveDataSource.fetchData();
+    }
 
 }
 

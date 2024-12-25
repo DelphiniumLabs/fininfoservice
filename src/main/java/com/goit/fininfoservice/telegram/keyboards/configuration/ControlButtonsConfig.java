@@ -1,5 +1,6 @@
 package com.goit.fininfoservice.telegram.keyboards.configuration;
 
+import com.goit.fininfoservice.telegram.keyboards.factory.CheckBoxKeyboardFactory;
 import com.goit.fininfoservice.telegram.keyboards.factory.InlineKeyboardFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,6 @@ public class ControlButtonsConfig {
 
     @Bean
     Map<String,String> mainPage(){
-        System.out.println(" Map<String,String> mainPage  ------------");
         Map<String,String> mainPage =new LinkedHashMap<>();
         mainPage.put("Отримати інфо", "/info");
         mainPage.put("Налаштування", "/settings");
@@ -58,5 +58,10 @@ public class ControlButtonsConfig {
     @Lazy(true)
     public InlineKeyboardMarkup settingPageIkm(Map<String,String> settingPage){
         return new InlineKeyboardFactory().getMarkup(settingPage);
+    }
+
+    @Bean
+    CheckBoxKeyboardFactory checkBoxKeyboardFactory(){
+        return new CheckBoxKeyboardFactory();
     }
 }

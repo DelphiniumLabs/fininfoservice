@@ -1,5 +1,6 @@
 package com.goit.fininfoservice.telegram.contoller;
 
+import com.goit.fininfoservice.telegram.service.KeyboardMassageService;
 import com.goit.fininfoservice.telegram.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class CommandController {
 
     private final MessageService messageService;
+
     public EditMessageText commandProcessing(Update update){
         String command = update.getCallbackQuery().getData();
         return switch (command){
@@ -24,6 +26,7 @@ public class CommandController {
             case "/bankSetting" -> messageService.bankSettingPage(update);
             case "/currencySetting" -> messageService.currencySettingPage(update);
             case "/timeSetting" -> messageService.timeSettingPage(update);
+
             default -> messageService.mainPage(update);
         };
 

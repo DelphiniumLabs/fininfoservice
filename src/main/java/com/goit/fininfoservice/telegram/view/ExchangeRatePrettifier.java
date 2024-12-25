@@ -7,7 +7,7 @@ public interface ExchangeRatePrettifier <T> {
         final StringBuilder prettyResult = new StringBuilder();
         prettyResult.append(header).append('\n');
         if (!listOfExRate.isEmpty()) {
-            listOfExRate.stream().forEach(
+            listOfExRate.forEach(
                     rate -> prettyResult.append(exRateToString(rate)).append("\n")
             );
         } else {

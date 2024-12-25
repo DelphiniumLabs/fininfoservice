@@ -16,5 +16,8 @@ public class Constants {
             /start - starts bot
             /stop - stops bot
             """;
-
+    public static final String STOP_TEXT = """ 
+            Financial bot stopped. Looking forward for you again!
+            Start bot with /start command.
+            """;
 }

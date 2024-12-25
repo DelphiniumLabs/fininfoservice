@@ -74,14 +74,8 @@ U
 %.mvn/wrapper/maven-wrapper.properties,3\2\32e074f71d16c1e88ac02aa83592ca6ad1fd98a8
 y
 Isrc/test/java/com/goit/fininfoservice/FininfoserviceApplicationTests.java,1\1\11d01b9fb9e5a26e50456998d936d97b988fa583
-Å
-Qsrc/main/java/com/goit/fininfoservice/datasources/dto/PrivatBankExchangeRate.java,f\d\fd3f38040fa48782ad5202de5c6160492ddf74f4
-z
-Jsrc/main/java/com/goit/fininfoservice/datasources/dto/NbuExchangeRate.java,a\8\a8638fb13131c86b5dae4f4a1d7e5aa503de4600
 
 Osrc/main/java/com/goit/fininfoservice/datasources/impl/WebClientDataSource.java,2\5\2544fca4f5440e16051bdf1a241d334fc03cfd33
-
-Osrc/main/java/com/goit/fininfoservice/datasources/dto/MonoBankExchangeRate.java,6\1\6146b16f91e77fb1a17aff41c19cb7336a67f733
 Ö
 Usrc/main/java/com/goit/fininfoservice/datasources/impl/WebClientDataSourceCached.java,3\6\368453be280e12ab44bd972e320269e0512d012e
 x

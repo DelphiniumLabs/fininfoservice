@@ -1,7 +1,7 @@
 package com.goit.fininfoservice.utils;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 public class CurrencyCode {
     private final Map<String, Integer> codes = new HashMap<>();
