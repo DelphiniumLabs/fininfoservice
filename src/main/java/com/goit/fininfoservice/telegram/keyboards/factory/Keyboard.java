@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 /// keyboards with specific behaviour
 ///
 public interface Keyboard {
+
     void build();
-    InlineKeyboardMarkup getInlineKeyboardMarkup() throws EmptyButtonsMapException;
+    //InlineKeyboardMarkup getInlineKeyboardMarkup() throws EmptyButtonsMapException;
 }

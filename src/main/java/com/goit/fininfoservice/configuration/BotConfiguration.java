@@ -2,6 +2,9 @@ package com.goit.fininfoservice.configuration;
 
 import com.goit.fininfoservice.telegram.Bot;
 import com.goit.fininfoservice.telegram.contoller.CommandController;
+import com.goit.fininfoservice.telegram.keyboards.factory.CheckBoxKeyboardFactory;
+import com.goit.fininfoservice.telegram.keyboards.factory.RadioButtonKeyboardFactory;
+import com.goit.fininfoservice.telegram.service.KeyboardMassageService;
 import com.goit.fininfoservice.telegram.service.MessageService;
 import com.goit.fininfoservice.utils.CurrencyCode;
 import org.springframework.context.annotation.Bean;
@@ -23,9 +26,25 @@ public class BotConfiguration {
         return api;
     }
     @Bean
+    public CheckBoxKeyboardFactory checkBoxKeyboardFactory(){
+        return  new CheckBoxKeyboardFactory();
+    }
+    @Bean
+    public RadioButtonKeyboardFactory radioButtonKeyboardFactory(){
+        return new RadioButtonKeyboardFactory();
+    }
+    @Bean
     public MessageService messageService(){
         return new MessageService();
     }
+
+    @Bean
+    public KeyboardMassageService keyboardMassageService(CheckBoxKeyboardFactory checkBoxKeyboardFactory,
+                                                         RadioButtonKeyboardFactory radioButtonKeyboardFactory) {
+        return new KeyboardMassageService(checkBoxKeyboardFactory, radioButtonKeyboardFactory);
+
+    }
+
     @Bean
     public CurrencyCode currencyCodes(){
         return new CurrencyCode();

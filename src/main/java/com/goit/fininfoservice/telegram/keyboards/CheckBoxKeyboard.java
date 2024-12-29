@@ -1,5 +1,6 @@
 package com.goit.fininfoservice.telegram.keyboards;
 
+import com.goit.fininfoservice.telegram.keyboards.buttons.Button;
 import com.goit.fininfoservice.telegram.keyboards.exceptions.EmptyButtonsMapException;
 import com.goit.fininfoservice.telegram.keyboards.factory.Keyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -20,6 +21,18 @@ public class CheckBoxKeyboard implements Keyboard {
         this.buttons = buttons;
     }
 
+    List<Button> getButtonsView() {
+        List<Button> buttonList = new ArrayList<>();
+        if (buttons.entrySet().isEmpty()) {
+            return buttonList;
+        }
+        for (Map.Entry<String, String> item : buttons.entrySet()) {
+            List<InlineKeyboardButton> buttonsRow = new ArrayList<>();
+            buttonList.add(new Button(ON_STATE_MARK + item.getKey(),
+                    item.getValue()));
+        }
+        return buttonList;
+    }
     @Override
     public void build() {
         for(Map.Entry<String,String> entry : buttons.entrySet()){
@@ -27,25 +40,4 @@ public class CheckBoxKeyboard implements Keyboard {
                     entry.getValue());
         }
     }
-
-    @Override
-    public InlineKeyboardMarkup getInlineKeyboardMarkup() throws EmptyButtonsMapException {
-        if (buttons.entrySet().isEmpty()) {
-            throw new EmptyButtonsMapException();
-        }
-        InlineKeyboardMarkup ikm = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-
-        for(Map.Entry<String, String> item : buttons.entrySet()){
-            List<InlineKeyboardButton> buttonsRow = new ArrayList<>();
-            buttonsRow.add(InlineKeyboardButton.builder()
-                            .text(OFF_STATE_MARK+item.getKey())
-                            .callbackData(item.getValue())
-                            .build());
-            rowList.add(buttonsRow);
-        }
-        ikm.setKeyboard(rowList);
-        return ikm;
-    }
-
 }

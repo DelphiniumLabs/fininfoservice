@@ -8,7 +8,7 @@ import com.goit.fininfoservice.datasources.ExchangeRateService;
 import com.goit.fininfoservice.datasources.dto.MonoBankExchangeRateDTO;
 import com.goit.fininfoservice.datasources.dto.NbuExchangeRateDTO;
 import com.goit.fininfoservice.datasources.dto.PrivatBankExchangeRateDTO;
-import com.goit.fininfoservice.telegram.keyboards.factory.InlineKeyboardFactory;
+import com.goit.fininfoservice.telegram.keyboards.InlineKeyboardFactory;
 import com.goit.fininfoservice.telegram.view.impl.MonoBankExRatePrettifier;
 import com.goit.fininfoservice.telegram.view.impl.PrivatBankExRatesPrettifier;
 import com.goit.fininfoservice.utils.Constants;

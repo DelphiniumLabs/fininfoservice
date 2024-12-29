@@ -1,4 +1,4 @@
-package com.goit.fininfoservice.telegram.keyboards.factory;
+package com.goit.fininfoservice.telegram.keyboards;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -6,8 +6,10 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.*;
 import java.util.stream.IntStream;
+///
+/// old class
 
-//Фабрика кнопок под текстом
+//Button factory under the text
 @Component
 public class InlineKeyboardFactory {
 

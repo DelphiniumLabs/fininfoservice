@@ -2,6 +2,7 @@ package com.goit.fininfoservice.telegram;
 
 
 import com.goit.fininfoservice.telegram.contoller.CommandController;
+import com.goit.fininfoservice.telegram.keyboards.exceptions.EmptyButtonsMapException;
 import com.goit.fininfoservice.telegram.service.KeyboardMassageService;
 import com.goit.fininfoservice.telegram.service.MessageService;
 import com.goit.fininfoservice.utils.BotStatus;
@@ -24,13 +25,18 @@ public class Bot extends TelegramLongPollingBot {
     private LocalDateTime lastOnUpdateReceived;
     private final MessageService messageService;
     private final CommandController commandController;
+    private final KeyboardMassageService keyboardMassageService;
+
     private BotStatus botStatus = BotStatus.AWATING_COMDAND;
 
     public Bot(@Value("${bot.token}") String botToken, MessageService messageService,
-               CommandController commandController){
+               CommandController commandController, KeyboardMassageService keyboardMassageService){
         super(botToken);
         this.messageService=messageService;
         this.commandController=commandController;
+        this.keyboardMassageService = keyboardMassageService;
+
+
         lastOnUpdateReceived=LocalDateTime.now().minus(500, ChronoUnit.MILLIS);
     }
 
@@ -50,6 +56,10 @@ public class Bot extends TelegramLongPollingBot {
                         botStatus = BotStatus.STOPPED;
                        System.out.println("--------->"+messageService.stopPage(update).toString());
                     }
+                    if(update.getMessage().getText().equals("/tf")){
+
+                        execute(keyboardMassageService.getTimeframes(update));
+                    }
                 } else if (update.hasCallbackQuery()) {
 
                     execute(commandController.commandProcessing(update));
@@ -60,6 +70,8 @@ public class Bot extends TelegramLongPollingBot {
             }
         } catch (TelegramApiException e) {
             e.printStackTrace();
+        } catch (EmptyButtonsMapException e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -1,6 +1,6 @@
 package com.goit.fininfoservice.telegram.keyboards.configuration;
 
-import com.goit.fininfoservice.telegram.keyboards.factory.InlineKeyboardFactory;
+import com.goit.fininfoservice.telegram.keyboards.InlineKeyboardFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;

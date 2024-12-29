@@ -1,7 +1,6 @@
 package com.goit.fininfoservice.telegram.keyboards.configuration;
 
-import com.goit.fininfoservice.telegram.keyboards.factory.CheckBoxKeyboardFactory;
-import com.goit.fininfoservice.telegram.keyboards.factory.InlineKeyboardFactory;
+import com.goit.fininfoservice.telegram.keyboards.InlineKeyboardFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -60,8 +59,8 @@ public class ControlButtonsConfig {
         return new InlineKeyboardFactory().getMarkup(settingPage);
     }
 
-    @Bean
-    CheckBoxKeyboardFactory checkBoxKeyboardFactory(){
-        return new CheckBoxKeyboardFactory();
-    }
+//    @Bean
+//    CheckBoxKeyboardFactory checkBoxKeyboardFactory(){
+//        return new CheckBoxKeyboardFactory();
+//    }
 }
