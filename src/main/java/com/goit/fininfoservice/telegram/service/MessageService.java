@@ -82,15 +82,17 @@ public class MessageService {
 
     public SendMessage startPage(Update update){
         String userOfChat=update.getMessage().getFrom().getUserName();
-
-        return SendMessage.builder().text("\n" + userOfChat+"\n"+Constants.GREETING+"Active Threads count="+Thread.currentThread().getId())
+        String text = "\n" + userOfChat+"\n"+Constants.GREETING;
+        return SendMessage.builder()
+                .parseMode("HTML")
+                .text(text)
                 .chatId(update.getMessage().getChatId())
                 .replyMarkup(this.mainPageIkm)
                 .build();
     }
 
-
     public EditMessageText infoPage(Update update) {
+
         StringBuilder infoText = new StringBuilder();
         infoText.append(
                 monoBankExRatePrettifier.prettify1(exchangeRateService.

@@ -30,7 +30,7 @@ public class ControlButtonsConfig {
     @Bean
     Map<String,String> infoPage(){
         Map<String,String> infoPage =new LinkedHashMap<>();
-        infoPage.put("Обновити", "/updateInfoPage");
+        infoPage.put("Обновити", "/info");
         infoPage.put("Назад", "/backToMainPage");
         return infoPage;
     }

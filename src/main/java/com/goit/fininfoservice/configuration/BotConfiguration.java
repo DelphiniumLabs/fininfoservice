@@ -1,7 +1,7 @@
 package com.goit.fininfoservice.configuration;
 
 import com.goit.fininfoservice.telegram.Bot;
-import com.goit.fininfoservice.telegram.contoller.CommandController;
+import com.goit.fininfoservice.telegram.controller.commands.CommandController;
 import com.goit.fininfoservice.telegram.keyboards.factory.CheckBoxKeyboardFactory;
 import com.goit.fininfoservice.telegram.keyboards.factory.RadioButtonKeyboardFactory;
 import com.goit.fininfoservice.telegram.service.KeyboardMassageService;
@@ -14,7 +14,8 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
-
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Configuration
 public class BotConfiguration {
@@ -49,10 +50,16 @@ public class BotConfiguration {
     public CurrencyCode currencyCodes(){
         return new CurrencyCode();
     }
+
     @Bean
     @DependsOn("messageService")
     public CommandController commandController(MessageService messageService){
         return new CommandController(messageService);
+    }
+
+    @Bean
+    public ExecutorService virtualThreadExecutor(){
+       return Executors.newVirtualThreadPerTaskExecutor();
     }
 
 }

@@ -19,27 +19,27 @@ public class KeyboardMassageService {
     private final OptitonSetKeyboardView keyboardView;
     @Autowired
     public KeyboardMassageService(CheckBoxKeyboardFactory checkBoxKeyboardFactory,
-                                  RadioButtonKeyboardFactory radioButtonKeyboardFactory,
-                                  OptitonSetKeyboardView keyboardView){
+                                  RadioButtonKeyboardFactory radioButtonKeyboardFactory){
         this.checkBoxKeyboardFactory = checkBoxKeyboardFactory;
         this.radioButtonKeyboardFactory = radioButtonKeyboardFactory;
-        this.keyboardView = keyboardView;
+        this.keyboardView = new OptitonSetKeyboardView();
     }
 
 
-    public SendMessage getHours(Update update) throws EmptyButtonsMapException {
-        Map<String, String> timeSettingPage = new LinkedHashMap<>();
-        timeSettingPage.put("BTC", "/BTC");
-        timeSettingPage.put("ETH", "/ETH");
-        timeSettingPage.put("LTC", "/LTC");
-        timeSettingPage.put("XRP", "/XRP");
-        timeSettingPage.put("ADA", "/ADA");
-        timeSettingPage.put("ETC", "/ETC");
+    public SendMessage getCrypto(Update update) throws EmptyButtonsMapException {
+        Map<String, String> cryptoSettingsPage = new LinkedHashMap<>();
+        cryptoSettingsPage.put("BTC", "/BTC");
+        cryptoSettingsPage.put("ETH", "/ETH");
+        cryptoSettingsPage.put("LTC", "/LTC");
+        cryptoSettingsPage.put("XRP", "/XRP");
+        cryptoSettingsPage.put("ADA", "/ADA");
+        cryptoSettingsPage.put("ETC", "/ETC");
 
-        var ikm = checkBoxKeyboardFactory.create(timeSettingPage);
+        var cbxKb = checkBoxKeyboardFactory.create(cryptoSettingsPage);
+        cbxKb.toggleOption("/XRP");
         return SendMessage.builder().text("**Choose your favorite crypto").parseMode("markdown")
                 .chatId(update.getMessage().getChatId())
-                .replyMarkup(ikm.getInlineKeyboardMarkup())
+                .replyMarkup(keyboardView.getKeyBoardView(cbxKb))
                 .build();
     }
 
@@ -52,6 +52,7 @@ public class KeyboardMassageService {
         timeSettingPage.put("1 day", "1440");
         timeSettingPage.put("1 week", "1080");
         var rbKb = radioButtonKeyboardFactory.create(timeSettingPage);
+        rbKb.toggleOption("240");
 
         return SendMessage.builder().text("**Choose time frame").parseMode("markdown")
                 .chatId(update.getMessage().getChatId())
