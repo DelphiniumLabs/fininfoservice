@@ -8,8 +8,8 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 @RequiredArgsConstructor
 public class CommandMessage implements BotMessage{
-    private final Message command;
 
+    private final Message command;
     @Override
     public Long getChatID() {
         return command.getChatId();
@@ -21,8 +21,10 @@ public class CommandMessage implements BotMessage{
 
     @Override
     public BotApiMethod<?> handle() {
-        var chatId= command.getChatId();
 
+        // возможно хорошая идея вызывать здесь соответствующий контроллер
+        // который будет обрабатывать комманду или сообщение
+        var chatId= command.getChatId();
         String responseText = "<b>Hi dear user!</b>"+Constants.GREETING;
         return SendMessage.builder().parseMode("HTML").text(responseText).chatId(chatId).build();
     }

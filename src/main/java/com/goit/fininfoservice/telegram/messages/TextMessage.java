@@ -12,12 +12,16 @@ public class TextMessage  implements BotMessage{
 
     @Override
     public Long getChatID() {
+
         return message.getChatId();
     }
+
     @Override
-    public String getText(){
+    public String getText() {
+
         return message.getText();
     }
+
     @Override
     public BotApiMethod<?> handle() {
         var chatID = this.getChatID();
@@ -25,8 +29,9 @@ public class TextMessage  implements BotMessage{
         return SendMessage.builder().parseMode("HTML").text(responseText).chatId(chatID).build();
     }
 
-    public String getUserName(){
-      return message.getFrom().getUserName();
+    public String getUserName() {
+
+        return message.getFrom().getUserName();
     }
 
 

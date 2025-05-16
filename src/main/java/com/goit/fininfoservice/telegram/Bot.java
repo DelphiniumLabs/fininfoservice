@@ -26,11 +26,11 @@ public class Bot extends TelegramLongPollingBot {
     private final ExecutorService virtualThreadExecutor;
     private final CommandController commandController;
 
-    public Bot( UpdateTypeResolver updateTypeResolver, ExecutorService updateHandlingExecutor,
+    public Bot( UpdateTypeResolver updateTypeResolver, ExecutorService virtualThreadExecutorService,
                 CommandController commandController, @Value("${bot.token}") String botToken){
         super(botToken);
         this.updateTypeResolver = updateTypeResolver;
-        this.virtualThreadExecutor = updateHandlingExecutor;
+        this.virtualThreadExecutor = virtualThreadExecutorService;
         this.commandController = commandController;
     }
 

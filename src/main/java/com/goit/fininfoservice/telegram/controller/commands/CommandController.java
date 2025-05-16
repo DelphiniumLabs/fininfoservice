@@ -2,6 +2,7 @@ package com.goit.fininfoservice.telegram.controller.commands;
 
 
 import com.goit.fininfoservice.telegram.botcommands.BotCommandHandler;
+import com.goit.fininfoservice.telegram.messages.BotMessage;
 import com.goit.fininfoservice.telegram.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,12 +26,22 @@ public class CommandController {
         return commandHandlers.get(command).handle(update);
     }
 
+    public Optional<SendMessage> process(BotMessage botMessage){
+        String command = botMessage.getText(); //throws exception in case of callbackQuery present because of Null
+        return commandHandlers.get(command).handle(botMessage);
+
+    }
+
+
+
+
+
+
+
+
     public EditMessageText commandProcessing(Update update){
-
-
         String command = update.getCallbackQuery().getData();
-
-        return switch (command){
+       return switch (command){
             case "/info" -> messageService.infoPage(update);
             case "/updateInfoPage" -> messageService.updateInfoPage1(update);// updateInfoPage1
             case "/backToMainPage" -> messageService.mainPage(update);

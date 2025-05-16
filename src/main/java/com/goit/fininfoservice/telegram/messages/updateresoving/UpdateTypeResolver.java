@@ -30,7 +30,7 @@ public class  UpdateTypeResolver {
 
     public BotMessage resolve(Update update){
         ObjectMapper upadteMapper = new ObjectMapper();
-        final Update closedUpdate = upadteMapper.convertValue(update,Update.class );
+        final Update updateCopy = upadteMapper.convertValue(update,Update.class );
 
         if (update.hasMessage() && update.getMessage().hasText()) {
             log.info("\n resolve Resolved type {}\n", update.getMessage().getText());
